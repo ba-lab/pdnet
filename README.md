@@ -6,4 +6,6 @@ As deep learning algorithms drive the progress in protein structure prediction, 
 Full dataset at: http://deep.cs.umsl.edu/pdnet/  
 
 Badri Adhikari  
-https://badriadhikari.github.io/
+https://badriadhikari.github.io/  
+
+[](depth_pred_comparison.png)
