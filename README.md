@@ -8,4 +8,4 @@ Full dataset at: http://deep.cs.umsl.edu/pdnet/
 Badri Adhikari  
 https://badriadhikari.github.io/  
 
-[](depth_pred_comparison.png)
+[](./depth_pred_comparison.png)
