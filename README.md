@@ -5,11 +5,12 @@ As deep learning algorithms drive the progress in protein structure prediction, 
 
 Full dataset at: http://deep.cs.umsl.edu/pdnet/  
 
-Badri Adhikari  
-https://badriadhikari.github.io/  
-
 ![](./depth_pred_comparison.png)
 (Figure above) Comparison of the protein inter-residue distance prediction problem with the 'depth prediction from single
 image problem' in computer vision. In both problems the input to the deep learning model is a volume and the
 output is a 2D matrix. The depth predictions for this specific image (top right corner) were obtained by running the
 pretrained FCRN method.
+
+## Contact:
+Badri Adhikari  
+https://badriadhikari.github.io/  
