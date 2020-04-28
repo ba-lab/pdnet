@@ -14,7 +14,7 @@ output is a 2D matrix. The depth predictions for this specific image (top right 
 pretrained FCRN method.
 
 ## Manuscript
-
+https://www.biorxiv.org/content/10.1101/2020.04.26.061820v1  
 
 ## Contact
 Badri Adhikari  
