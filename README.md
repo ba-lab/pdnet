@@ -17,7 +17,7 @@ pretrained FCRN method.
 https://www.biorxiv.org/content/10.1101/2020.04.26.061820v1  
 
 ## Watch to learn more about PDNET
-[![PDNET talk](https://youtu.be/uAIuA1O7iE8)
+[![PDNET talk]](https://youtu.be/uAIuA1O7iE8)
 
 ## Contact
 Badri Adhikari  
