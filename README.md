@@ -30,7 +30,7 @@ cd deep-learning/src/
 python3 train.py -t distance -w distance.hdf5 -n 300 -c 128 -e 64 -d 16 -f 64 -p ../../data/ -v 0 -o 0 
 ```
 ### In Google Colab
-Open the `pdnet_distance.ipynb` file inside the notebooks folder in Google Colab and select a GPU runtime environment.
+Open the `pdnet_distance.ipynb` file inside the `notebooks` folder in [Google Colab](https://colab.research.google.com/) and select a GPU runtime environment. If you are new to Google Colab, please watch [this](https://www.youtube.com/watch?v=PVsS9WtwVB8).
 
 ## Contact
 Badri Adhikari  
