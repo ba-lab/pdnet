@@ -19,6 +19,16 @@ https://www.biorxiv.org/content/10.1101/2020.04.26.061820v1
 ## Watch to learn more about PDNET
 [https://www.youtube.com/watch?v=uAIuA1O7iE8](https://www.youtube.com/watch?v=uAIuA1O7iE8)
 
+## How to test PDNET through command line (i.e. in a server)?
+```bash
+wget http://deep.cs.umsl.edu/pdnet/train-data.tar.gz
+tar zxvf train-data.tar.gz
+wget http://deep.cs.umsl.edu/pdnet/train-src.tar.gz
+tar zxvf train-src.tar.gz
+cd deep-learning/src/
+python3 train.py 
+```
+
 ## Contact
 Badri Adhikari  
 https://badriadhikari.github.io/  
