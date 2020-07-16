@@ -26,7 +26,7 @@ tar zxvf train-data.tar.gz
 wget http://deep.cs.umsl.edu/pdnet/train-src.tar.gz
 tar zxvf train-src.tar.gz
 cd deep-learning/src/
-python3 train.py 
+python3 train.py -t distance -w distance.hdf5 -n 300 -c 128 -e 64 -d 16 -f 64 -p ../../data/ -v 0 -o 0 
 ```
 
 ## Contact
