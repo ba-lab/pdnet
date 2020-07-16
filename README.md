@@ -19,7 +19,8 @@ https://www.biorxiv.org/content/10.1101/2020.04.26.061820v1
 ## Watch to learn more about PDNET
 [https://www.youtube.com/watch?v=uAIuA1O7iE8](https://www.youtube.com/watch?v=uAIuA1O7iE8)
 
-## How to test PDNET through command line (i.e. in a server)?
+## Where to start?
+### In a server without notebook
 ```bash
 wget http://deep.cs.umsl.edu/pdnet/train-data.tar.gz
 tar zxvf train-data.tar.gz
@@ -28,6 +29,8 @@ tar zxvf train-src.tar.gz
 cd deep-learning/src/
 python3 train.py -t distance -w distance.hdf5 -n 300 -c 128 -e 64 -d 16 -f 64 -p ../../data/ -v 0 -o 0 
 ```
+### In Google Colab
+Open the `pdnet_distance.ipynb` file inside the notebooks folder in Google Colab and select a GPU runtime environment.
 
 ## Contact
 Badri Adhikari  
