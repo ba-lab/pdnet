@@ -13,8 +13,9 @@ image problem' in computer vision. In both problems the input to the deep learni
 output is a 2D matrix. The depth predictions for this specific image (top right corner) were obtained by running the
 pretrained FCRN method.
 
-## Manuscript
-https://www.biorxiv.org/content/10.1101/2020.04.26.061820v1  
+## Please cite
+"A fully open-source framework for deep learning protein real-valued distances", B. Adhikari, Scientific Reports, 2020.
+DOI: [https://www.nature.com/articles/s41598-020-70181-0#citeas](https://www.nature.com/articles/s41598-020-70181-0#citeas)
 
 ## Watch to learn more about PDNET
 [https://www.youtube.com/watch?v=uAIuA1O7iE8](https://www.youtube.com/watch?v=uAIuA1O7iE8)
