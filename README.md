@@ -13,10 +13,6 @@ image problem' in computer vision. In both problems the input to the deep learni
 output is a 2D matrix. The depth predictions for this specific image (top right corner) were obtained by running the
 pretrained FCRN method.
 
-## Please cite
-"A fully open-source framework for deep learning protein real-valued distances", B. Adhikari, Scientific Reports, 2020.
-DOI: [https://www.nature.com/articles/s41598-020-70181-0#citeas](https://www.nature.com/articles/s41598-020-70181-0#citeas)
-
 ## Watch to learn more about PDNET
 [https://www.youtube.com/watch?v=uAIuA1O7iE8](https://www.youtube.com/watch?v=uAIuA1O7iE8)
 
@@ -32,6 +28,10 @@ python3 train.py -t distance -w distance.hdf5 -n 300 -c 128 -e 64 -d 16 -f 64 -p
 ```
 ### In Google Colab
 Open the `pdnet_distance.ipynb` file inside the `notebooks` folder in [Google Colab](https://colab.research.google.com/) and select a GPU runtime environment. If you are new to Google Colab, please watch [this](https://www.youtube.com/watch?v=PVsS9WtwVB8).
+
+## Reference
+"A fully open-source framework for deep learning protein real-valued distances", B. Adhikari, Scientific Reports, 2020.   
+DOI: [https://www.nature.com/articles/s41598-020-70181-0#citeas](https://www.nature.com/articles/s41598-020-70181-0#citeas)
 
 ## Contact
 Badri Adhikari  
