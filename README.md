@@ -31,7 +31,7 @@ Open the `pdnet_distance.ipynb` file inside the `notebooks` folder in [Google Co
 
 ## Reference
 "A fully open-source framework for deep learning protein real-valued distances", B. Adhikari, Scientific Reports, 2020.   
-DOI: [https://www.nature.com/articles/s41598-020-70181-0#citeas](https://www.nature.com/articles/s41598-020-70181-0#citeas)
+DOI: [https://www.nature.com/articles/s41598-020-70181-0](https://www.nature.com/articles/s41598-020-70181-0)
 
 ## Contact
 Badri Adhikari  
