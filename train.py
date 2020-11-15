@@ -8,11 +8,11 @@ import sys
 import numpy as np
 import datetime
 import argparse
-#%matplotlib inline
 
 flag_plots = False
 
 if flag_plots:
+    #%matplotlib inline
     from plots import *
 
 if sys.version_info < (3,0,0):
@@ -22,8 +22,7 @@ if sys.version_info < (3,0,0):
 def get_args():
     parser = argparse.ArgumentParser(
             formatter_class=argparse.RawTextHelpFormatter,
-            epilog='EXAMPLE:\npython3 train.py -t distance -w distance.hdf5 -n 200 -c 64 -e 2 -d 8 -f 16 -p ../dl-training-data/ -v 0 -o /tmp/')
-    parser.add_argument('-t', type=str, required = True, dest = 'type', help="contact/distance/binned")
+            epilog='EXAMPLE:\npython3 train.py -w distance.hdf5 -n 200 -c 64 -e 2 -d 8 -f 16 -p ../dl-training-data/ -v 0 -o /tmp/')
     parser.add_argument('-w', type=str, required = True, dest = 'file_weights', help="hdf5 weights file")
     parser.add_argument('-n', type=int, required = True, dest = 'dev_size', help="number of pdbs to use for training (use -1 for ALL)")
     parser.add_argument('-c', type=int, required = True, dest = 'training_window', help="crop size (window) for training, 64, 128, etc. ")
@@ -38,7 +37,6 @@ def get_args():
 
 args = get_args()
 
-contact_or_dist_or_binned = args.type
 file_weights              = args.file_weights
 dev_size                  = args.dev_size
 training_window           = args.training_window
@@ -78,7 +76,6 @@ print('Start ' + str(datetime.datetime.now()))
 
 print('')
 print('Parameters:')
-print('contact_or_dist_or_binned', contact_or_dist_or_binned)
 print('dev_size', dev_size)
 print('file_weights', file_weights)
 print('training_window', training_window)
@@ -88,35 +85,12 @@ print('filters_per_layer', filters_per_layer)
 print('pad_size', pad_size)
 print('batch_size', batch_size)
 print('dir_dataset', dir_dataset)
-
-if not (contact_or_dist_or_binned == 'distance' or contact_or_dist_or_binned == 'contact' or contact_or_dist_or_binned == 'binned'):
-    print('ERROR! Invalid input choice!')
-    sys.exit(1)
+print('dir_out', dir_out)
 
 os.system('mkdir -p ' + dir_out)
 
 all_feat_paths = [dir_dataset + '/deepcov/features/', dir_dataset + '/psicov/features/', dir_dataset + '/cameo/features/']
 all_dist_paths = [dir_dataset + '/deepcov/distance/', dir_dataset + '/psicov/distance/', dir_dataset + '/cameo/distance/']
-
-bins = {}
-if contact_or_dist_or_binned == 'binned':
-    bins[0] = '0.0 4.0'
-    b = 1
-    range_min = float(bins[0].split()[1])
-    interval = 0.2
-    while(range_min < 8.0):
-        bins[b] = str(round(range_min, 2)) + ' ' + str(round(range_min + interval, 2))
-        range_min += interval
-        b += 1
-    while(range_min <= 26):
-        interval += 0.2
-        bins[b] = str(round(range_min, 2)) + ' ' + str(round(range_min + interval, 2))
-        b += 1
-        range_min += interval
-    bins[b] = '26.0 1000.0'
-    print('')
-    print('Number of bins', len(bins))
-    print('Actual bins:', bins)
 
 deepcov_list = load_list(dir_dataset + '/deepcov.lst', dev_size)
 
@@ -139,17 +113,8 @@ print('Total training proteins   : ', len(train_pdbs))
 print('')
 print('Validation proteins: ', valid_pdbs)
 
-train_generator = ''
-valid_generator = ''
-if contact_or_dist_or_binned == 'distance':
-    train_generator = DistGenerator(train_pdbs, all_feat_paths, all_dist_paths, training_window, pad_size, batch_size, expected_n_channels, label_engineering = '16.0')
-    valid_generator = DistGenerator(valid_pdbs, all_feat_paths, all_dist_paths, training_window, pad_size, batch_size, expected_n_channels, label_engineering = '16.0')
-if contact_or_dist_or_binned == 'contact':
-    train_generator = ContactGenerator(train_pdbs, all_feat_paths, all_dist_paths, training_window, pad_size, batch_size, expected_n_channels)
-    valid_generator = ContactGenerator(valid_pdbs, all_feat_paths, all_dist_paths, training_window, pad_size, batch_size, expected_n_channels)
-if contact_or_dist_or_binned == 'binned':
-    train_generator = BinnedDistGenerator(train_pdbs, all_feat_paths, all_dist_paths, bins, training_window, pad_size, batch_size, expected_n_channels)
-    valid_generator = BinnedDistGenerator(valid_pdbs, all_feat_paths, all_dist_paths, bins, training_window, pad_size, batch_size, expected_n_channels)
+train_generator = DistGenerator(train_pdbs, all_feat_paths, all_dist_paths, training_window, pad_size, batch_size, expected_n_channels, label_engineering = '16.0')
+valid_generator = DistGenerator(valid_pdbs, all_feat_paths, all_dist_paths, training_window, pad_size, batch_size, expected_n_channels, label_engineering = '16.0')
 
 print('')
 print('len(train_generator) : ' + str(len(train_generator)))
@@ -171,43 +136,21 @@ if flag_plots:
 print('')
 print('Build a model..')
 model = ''
-if contact_or_dist_or_binned == 'distance':
-    model = deepcon_rdd_distances(training_window, arch_depth, filters_per_layer, expected_n_channels)
-if contact_or_dist_or_binned == 'contact':
-    model = deepcon_rdd(training_window, arch_depth, filters_per_layer, expected_n_channels)
-if contact_or_dist_or_binned == 'binned':
-    model = deepcon_rdd_binned(training_window, arch_depth, filters_per_layer, len(bins), expected_n_channels)
+model = deepcon_rdd_distances(training_window, arch_depth, filters_per_layer, expected_n_channels)
 
 print('')
 print('Compile model..')
-if contact_or_dist_or_binned == 'distance':
-    model.compile(loss = 'logcosh', optimizer = 'rmsprop', metrics = ['mae'])
-if contact_or_dist_or_binned == 'contact':
-    model.compile(loss = 'binary_crossentropy', optimizer = 'rmsprop', metrics = ['accuracy'])
-if contact_or_dist_or_binned == 'binned':
-    model.compile(loss = 'categorical_crossentropy', optimizer = 'rmsprop', metrics = ['accuracy'])
+model.compile(loss = 'logcosh', optimizer = 'rmsprop', metrics = ['mae'])
 
 print(model.summary())
 
 if flag_eval_only == 0:
-    if contact_or_dist_or_binned == 'binned':
-        print('')
-        print('Load weights from distance model..')
-        distmodel = deepcon_rdd_distances(training_window, arch_depth, filters_per_layer, expected_n_channels)
-        distmodel.load_weights('distance256.hdf5')
-        for i, layer in enumerate(distmodel.layers):
-            print(' Copying weights of layer ', i, layer.name)
-            model.layers[i].set_weights(layer.get_weights())
-            if layer.name == 'activation_516':
-                break
     if os.path.exists(file_weights):
         print('')
         print('Loading existing weights..')
         model.load_weights(file_weights)
-
     print('')
     print('Train..')
-
     history = model.fit_generator(generator = train_generator,
         validation_data = valid_generator,
         callbacks = [ModelCheckpoint(filepath = file_weights, monitor = 'val_loss', save_best_only = True, save_weights_only = True, verbose = 1)],
@@ -236,7 +179,7 @@ for pdb in cameo_list:
 evalsets = {}
 #evalsets['validation'] = {'LMAX': 512,  'list': valid_pdbs, 'lendict': length_dict}
 evalsets['psicov'] = {'LMAX': 512,  'list': psicov_list, 'lendict': psicov_length_dict}
-evalsets['cameo'] = {'LMAX': 1300, 'list': cameo_list, 'lendict': cameo_length_dict}
+evalsets['cameo']  = {'LMAX': 1300, 'list': cameo_list,  'lendict': cameo_length_dict}
 
 for my_eval_set in evalsets:
     print('')
@@ -247,22 +190,9 @@ for my_eval_set in evalsets:
     print('L', len(my_list))
     print(my_list)
 
-    model = ''
-    my_generator = ''
-    if contact_or_dist_or_binned == 'distance':
-        model = deepcon_rdd_distances(LMAX, arch_depth, filters_per_layer, expected_n_channels)
-        model.load_weights(file_weights)
-        my_generator = DistGenerator(my_list, all_feat_paths, all_dist_paths, LMAX, pad_size, 1, expected_n_channels, label_engineering = None)
-    
-    # To Do:
-    if contact_or_dist_or_binned == 'contact':
-        model = deepcon_rdd(LMAX, arch_depth, filters_per_layer, expected_n_channels)
-        model.load_weights(file_weights)
-        eval_contact_predictions(model, valid_pdbs, length_dict, all_feat_paths, all_dist_paths, pad_size, flag_plots, False, LMAX, expected_n_channels)
-    if contact_or_dist_or_binned == 'binned':
-        model = deepcon_rdd_binned(LMAX, arch_depth, filters_per_layer, len(bins), expected_n_channels)
-        model.load_weights(file_weights)
-        eval_binned_predictions(model, valid_pdbs, length_dict, all_feat_paths, all_dist_paths, pad_size, flag_plots, False, LMAX, bins, expected_n_channels)
+    model = deepcon_rdd_distances(LMAX, arch_depth, filters_per_layer, expected_n_channels)
+    model.load_weights(file_weights)
+    my_generator = DistGenerator(my_list, all_feat_paths, all_dist_paths, LMAX, pad_size, 1, expected_n_channels, label_engineering = None)
 
     # Padded but full inputs/outputs
     P = model.predict_generator(my_generator, max_queue_size=10, verbose=1)
