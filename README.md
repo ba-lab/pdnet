@@ -7,7 +7,7 @@ As deep learning algorithms drive the progress in protein structure prediction, 
 http://deep.cs.umsl.edu/pdnet/  
 
 ## Distance prediction compared with the image depth prediction problem
-![](./depth_pred_comparison.png)
+![](./pdnet.png)
 (Figure above) Comparison of the protein inter-residue distance prediction problem with the 'depth prediction from single
 image problem' in computer vision. In both problems the input to the deep learning model is a volume and the
 output is a 2D matrix. The depth predictions for this specific image (top right corner) were obtained by running the
