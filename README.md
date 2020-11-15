@@ -18,13 +18,14 @@ pretrained FCRN method.
 
 ## Where to start?
 ### In a server without notebook
+Download dataset:
 ```bash
 wget http://deep.cs.umsl.edu/pdnet/train-data.tar.gz
 tar zxvf train-data.tar.gz
-wget http://deep.cs.umsl.edu/pdnet/train-src.tar.gz
-tar zxvf train-src.tar.gz
-cd deep-learning/src/
-python3 train.py -t distance -w distance.hdf5 -n 300 -c 128 -e 64 -d 16 -f 64 -p ../../data/ -v 0 -o 0 
+```
+Start training:
+```
+python3 train.py -h
 ```
 ### In Google Colab
 Open the `pdnet_distance.ipynb` file inside the `notebooks` folder in [Google Colab](https://colab.research.google.com/) and select a GPU runtime environment. If you are new to Google Colab, please watch [this](https://www.youtube.com/watch?v=PVsS9WtwVB8).
