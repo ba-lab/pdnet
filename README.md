@@ -13,7 +13,7 @@ image problem' in computer vision. In both problems the input to the deep learni
 output is a 2D matrix. The depth predictions for this specific image (top right corner) were obtained by running the
 pretrained FCRN method.
 
-## Watch to learn more about PDNET
+## Presentation@Youtube
 [https://www.youtube.com/watch?v=uAIuA1O7iE8](https://www.youtube.com/watch?v=uAIuA1O7iE8)
 
 ## Where to start?
