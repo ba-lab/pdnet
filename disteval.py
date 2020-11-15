@@ -203,6 +203,7 @@ def calc_dist_errors(P, Y, L, dist_thres=None, min_sep=None, top_l_by_x=None, pr
     errors['mse'] = np.nan
     errors['rmse'] = np.nan
     errors['pearsonr'] = np.nan
+    errors['count'] = np.nan
     pred_dict = {}
     true_dict = {}
     for p in range(len(Y)):
