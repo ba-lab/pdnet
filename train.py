@@ -1,5 +1,5 @@
 '''
-Author: Badri Adhikari, University of Missouri-St. Louis,  1-25-2020
+Author: Badri Adhikari, University of Missouri-St. Louis,  11-15-2020
 File: Contains the code to train and test learning real-valued distances, binned-distances and contact maps
 '''
 
@@ -142,8 +142,8 @@ print('Validation proteins: ', valid_pdbs)
 train_generator = ''
 valid_generator = ''
 if contact_or_dist_or_binned == 'distance':
-    train_generator = DistGenerator(train_pdbs, all_feat_paths, all_dist_paths, training_window, pad_size, batch_size, expected_n_channels, label_engineering = '100/d')
-    valid_generator = DistGenerator(valid_pdbs, all_feat_paths, all_dist_paths, training_window, pad_size, batch_size, expected_n_channels, label_engineering = '100/d')
+    train_generator = DistGenerator(train_pdbs, all_feat_paths, all_dist_paths, training_window, pad_size, batch_size, expected_n_channels, label_engineering = '16.0')
+    valid_generator = DistGenerator(valid_pdbs, all_feat_paths, all_dist_paths, training_window, pad_size, batch_size, expected_n_channels, label_engineering = '16.0')
 if contact_or_dist_or_binned == 'contact':
     train_generator = ContactGenerator(train_pdbs, all_feat_paths, all_dist_paths, training_window, pad_size, batch_size, expected_n_channels)
     valid_generator = ContactGenerator(valid_pdbs, all_feat_paths, all_dist_paths, training_window, pad_size, batch_size, expected_n_channels)
@@ -278,34 +278,43 @@ for my_eval_set in evalsets:
     P[:, :LMAX-pad_size, :LMAX-pad_size, :] = P[:, int(pad_size/2) : LMAX-int(pad_size/2), int(pad_size/2) : LMAX-int(pad_size/2), :]
     Y[:, :LMAX-pad_size, :LMAX-pad_size, :] = Y[:, int(pad_size/2) : LMAX-int(pad_size/2), int(pad_size/2) : LMAX-int(pad_size/2), :]
     # Recover the distance translations
-    P = 100.0 / (P + epsilon)
+    #P = 100.0 / (P + epsilon)
     print('')
     print('Evaluating distances..')
     results_list = evaluate_distances(P, Y, my_list, length_dict)
     print('')
-    print(f'Averages for {my_eval_set}', end = ' ')
     numcols = len(results_list[0].split())
-    for ncol in range(2, numcols):
-        x = results_list[0].split()[ncol].strip()
-        if x == 'count' or results_list[0].split()[ncol-1].strip() == 'count':
+    print(f'Averages for {my_eval_set}', end = ' ')
+    for i in range(2, numcols):
+        x = results_list[0].split()[i].strip()
+        if x == 'count' or results_list[0].split()[i-1].strip() == 'count':
             continue
+        avg_this_col = False
+        if x == 'nan':
+            avg_this_col = True
         try:
             float(x)
-            avg = 0.0
-            count = 0
-            for mrow in results_list:
-                a = mrow.split()
-                if len(a) < ncol:
-                    continue
-                x = a[ncol]
-                try:
-                    avg += float(x)
-                    count += 1
-                except ValueError:
-                    None
-            print(f'AVG: {avg/count:.4f} items={count}', end = ' ')
+            avg_this_col = True
         except ValueError:
+            None
+        if not avg_this_col:
             print(x, end=' ')
+            continue
+        avg = 0.0
+        count = 0
+        for mrow in results_list:
+            a = mrow.split()
+            if len(a) != numcols:
+                continue
+            x = a[i]
+            if x == 'nan':
+                continue
+            try:
+                avg += float(x)
+                count += 1
+            except ValueError:
+                print(f'ERROR!! float value expected!! {x}')
+        print(f'AVG: {avg/count:.4f} items={count}', end = ' ')
     print('')
 
     if flag_plots:
@@ -319,5 +328,3 @@ for my_eval_set in evalsets:
 
 print('')
 print ('Everything done! ' + str(datetime.datetime.now()) )
-
-
