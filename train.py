@@ -254,7 +254,7 @@ for my_eval_set in evalsets:
     print('Save predictions..')
     for i in range(len(my_list)):
         L = length_dict[my_list[i]]
-        np.save(dir_out + '/' + my_list[i] + '.npy', P[0, :L, :L, 0])
+        np.save(dir_out + '/' + my_list[i] + '.npy', P[i, :L, :L, 0])
 
 print('')
 print ('Everything done! ' + str(datetime.datetime.now()) )
