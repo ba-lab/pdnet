@@ -237,7 +237,7 @@ def calc_dist_errors_various_xl(P, Y, L, separation=[12, 24]):
     all_metrics = {}
     dist_thres = ['1000']  # ['08', '12']
     topxl = {5: 'Top-L/5', 2: 'Top-L/2', 1: 'Top-L  ', 0.000001: 'ALL    '}
-    pred_cutoffs = [20.0]
+    pred_cutoffs = [15.0] # This is taken from the lDDT's 'R' value
     for pt in pred_cutoffs:
         for dt in dist_thres:
             for sep in separation:
