@@ -27,7 +27,7 @@ def evaluate_distances(PRED, YTRUE, pdb_list, length_dict):
         NC[NC >= 8.0] = 0
         eval_dict = calc_contact_errors_various_xl(CPRED = C, CTRUE = NC, separation = [12, 24])
         # Distance metrics
-        eval_dict['Dist metrics'] = calc_dist_errors_various_xl(P = D, Y = ND, L = L)
+        eval_dict.update(calc_dist_errors_various_xl(P = D, Y = ND, L = L))
         # Obtain Cb-LDDT scores
         for S in [6, 12, 24]:
             for R in [15]:
