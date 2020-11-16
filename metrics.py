@@ -32,9 +32,10 @@ def evaluate_distances(PRED, YTRUE, pdb_list, length_dict):
         for S in [6, 12, 24]:
             for R in [15]:
                 eval_dict[f"Cb-LDDT Radius: {R:2d} min-seq-sep: {S:2d}"] = get_LDDT(ND, D, R, S)
+        for item in eval_dict:
+            print(pdb_list[i], item, eval_dict[item])
         output = str(pdb_list[i]) + ' ' + str(L) + ' ' + str(i) + ' ' + str(eval_dict)
         output = output.replace(',', '')
-        print(output)
         output = output.replace('{', '')
         output = output.replace('}', '')
         output = output.replace(':', '')
